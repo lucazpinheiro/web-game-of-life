@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of life</title>
+    <style>
+        .main {
+            display: flex;
+        }
+
+        .info-container {
+            flex: 1;
+        }
+
+        .board-container {
+            flex: 1;
+        }
+
+        .board-grid {
+            display: grid;
+            background-color: black;
+            grid-template-columns: repeat(30, 21px);
+            grid-template-rows: repeat(30, 21px);
+        }
+
+        .dead-cell {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+        }
+
+        .live-cell.cell {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+        }
+
+        </style>
+</head>
+<body>
+    <h1>Game of life</h1>
+    <div class="main">
+        <div class="board-container">
+            <div id="board" class="board-grid"></div>
+        </div>
+        <div class="info-container">
+            <div id="round"></div>
+        </div>
+    </div>
+</body>
+    <script type="text/javascript" defer src="main.js"></script>
+</html>
