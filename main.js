@@ -125,7 +125,7 @@ function main() {
 
   let round = 0
   const runRound = () => {
-    if (round < 300) {
+    if (true) {
       updateRound(round)
       let cellToBeUpdated = []
       for (let i = 0; i < CELLS.length; i++) {
@@ -160,7 +160,7 @@ function main() {
     round += 1
   }
   
-  setInterval(runRound, 100)
+  setInterval(runRound, 70)
 }
 
 main()
