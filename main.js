@@ -1,17 +1,18 @@
 
-const BOARD_SIZE = 30;
+const RANDOM_CELLS_COUNT = 400;
+const GRID_SIZE = 48;
 const CELLS = []
 
-function mountBoard() {
-  const board = document.getElementById("board")
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    for (let j = 0; j < BOARD_SIZE; j++) {
+function mountGrid() {
+  const grid = document.getElementById("grid")
+  for (let i = 0; i < GRID_SIZE; i++) {
+    for (let j = 0; j < GRID_SIZE; j++) {
       const div = document.createElement("div");
       div.className = "dead-cell"
       const id = `cell:${i}:${j}`
       div.id = id
       CELLS.push(id)
-      board.appendChild(div)
+      grid.appendChild(div)
     }
   }
 }
@@ -31,10 +32,12 @@ function setEventListener(id) {
 
 function flipCellState(id) {
   const cell = document.getElementById(id)
-  if (cell && cell.className === "live-cell") {
-    cell.className = "dead-cell"
-  } else {
-    cell.className = "live-cell"
+  if (cell) {
+    if (cell && cell.className === "live-cell") {
+      cell.className = "dead-cell"
+    } else {
+      cell.className = "live-cell"
+    }
   }
 }
 
@@ -43,11 +46,17 @@ function selectRandomCells(initialCells = 5) {
   return shuffled.slice(0, initialCells);
 }
 
+function isCellAlive(cellID) {
+  const cell = document.getElementById(cellID)
+  if (cell && cell.className === "live-cell") {
+    return true
+  }
+}
+
 function findLiveCells() {
   const liveCells = []
   for (let i = 0; i < CELLS.length; i++) {
-    const cell = document.getElementById(CELLS[i])
-    if (cell.className === "live-cell") {
+    if (isCellAlive(CELLS[i])) {
       liveCells.push(CELLS[i])
     }
   }
@@ -59,7 +68,7 @@ function findSurroundingCells(cellID) {
   let [, colum, row] = cellID.split(':')
   colum = Number(colum)
   row = Number(row)
-  if ((colum + 1) <= (BOARD_SIZE - 1)) {
+  if ((colum + 1) <= (GRID_SIZE - 1)) {
     surroundingCells.push(`cell:${colum + 1}:${row}`) // cell on top
   }
 
@@ -71,7 +80,7 @@ function findSurroundingCells(cellID) {
     surroundingCells.push(`cell:${colum}:${row - 1}`) // cell on right
   }
 
-  if ((row + 1) <= (BOARD_SIZE - 1)) {
+  if ((row + 1) <= (GRID_SIZE - 1)) {
     surroundingCells.push(`cell:${colum}:${row + 1}`) // cell on left
   }
 
@@ -81,26 +90,19 @@ function findSurroundingCells(cellID) {
     surroundingCells.push(`cell:${colum - 1}:${row - 1}`)
   }
 
-  if ((colum - 1) >= 0 && (row + 1)  <= (BOARD_SIZE - 1)) {
+  if ((colum - 1) >= 0 && (row + 1)  <= (GRID_SIZE - 1)) {
     surroundingCells.push(`cell:${colum - 1}:${row + 1}`)
   }
 
-  if ((colum + 1) <= (BOARD_SIZE - 1) && (row - 1)  >= 0) {
+  if ((colum + 1) <= (GRID_SIZE - 1) && (row - 1)  >= 0) {
     surroundingCells.push(`cell:${colum + 1}:${row - 1}`)
   }
 
-  if ((colum + 1) <= (BOARD_SIZE - 1) && (row + 1)  >= 0) {
+  if ((colum + 1) <= (GRID_SIZE - 1) && (row + 1)  >= 0) {
     surroundingCells.push(`cell:${colum + 1}:${row + 1}`)
   }
 
   return surroundingCells
-}
-
-function isCellAlive(cellID) {
-  const cell = document.getElementById(cellID)
-  if (cell && cell.className === "live-cell") {
-    return true
-  }
 }
 
 function updateGridState(cells) {
@@ -109,24 +111,26 @@ function updateGridState(cells) {
   }
 }
 
-function updateRound(round) {
-  const roundElem = document.getElementById('round')
-  roundElem.innerHTML = `<h2> round: ${round} </h2>`
+function updateGeneration(generation) {
+  const generationElem = document.getElementById('generation')
+  if (generationElem) {
+    generationElem.innerHTML = `<h2> generation: ${generation} </h2>`
+  }
 }
 
 function main() {
   // mount grid
-  mountBoard()
+  mountGrid()
 
-  const initialCells = selectRandomCells(100)
+  const initialCells = selectRandomCells(RANDOM_CELLS_COUNT)
   for (let i = 0; i < initialCells.length; i ++) {
     flipCellState(initialCells[i])
   }
 
-  let round = 0
+  let generation = 0
   const runRound = () => {
     if (true) {
-      updateRound(round)
+      updateGeneration(generation)
       let cellToBeUpdated = []
       for (let i = 0; i < CELLS.length; i++) {
         const cellID = CELLS[i]
@@ -157,7 +161,7 @@ function main() {
       updateGridState(cellToBeUpdated)
       cellToBeUpdated = []
     }
-    round += 1
+    generation += 1
   }
   
   setInterval(runRound, 70)

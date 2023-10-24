@@ -5,37 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game of life</title>
     <style>
-        .main {
-            display: flex;
+        .h1 {
+            text-align: center;
         }
 
-        .board-grid {
+        .info-container {
+            text-align: center;
+        }
+
+        .grid-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .grid {
             display: grid;
+            grid-template-columns: repeat(48, 16px);
+            grid-template-rows: repeat(48, 16px);
+            padding: 2px;
             background-color: black;
-            grid-template-columns: repeat(30, 21px);
-            grid-template-rows: repeat(30, 21px);
         }
 
         .dead-cell {
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             background-color: white;
         }
 
         .live-cell.cell {
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             background-color: black;
         }
 
         </style>
 </head>
 <body>
-    <h1>Game of life</h1>
     <div class="main">
-        <div id="board" class="board-grid"></div>
         <div class="info-container">
-            <div id="round"></div>
+            <h1>Game of life</h1>
+            <div id="generation"></div>
+        </div>
+        <div class="grid-container">
+            <div id="grid" class="grid"></div>
         </div>
     </div>
 </body>
